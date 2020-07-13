@@ -1,0 +1,10 @@
+db.hits.aggregate([{$group: {_id: {resource: "$resource"}, total: {$sum: 1}}}]);
+db.hits.mapReduce(function() {emit(this.resource, 1)}, function(key, values) {return Array.sum(values)}, {out: "mr"}).find();
+
+db.students.aggregate([{$project: {friends: 1}}, {$unwind: "$friends"}, 
+		       {$group: {_id: {id: "$friends"}, index: {$sum: 1}}}, 
+		       {$sort: {index: -1}}, 
+		       {$limit: 3}]);
+
+db.students.mapReduce(function() {this.friends.forEach(function(z) {emit(z, 1);});}, function(key, values) {return Array.sum(values)}, 
+{out: "MR", query: {friends: {$exists: true}}}).find().sort({value: -1}).limit(3)
