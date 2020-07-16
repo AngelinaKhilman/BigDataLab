@@ -202,11 +202,11 @@ AND exam_result.result >= 4;
 
 SELECT teacher_id FROM training_course GROUP BY teacher_id HAVING COUNT(teacher_id) > 2;
 
-SELECT distinct student.id, student.last_name FROM student
-INNER JOIN exam_result first ON student.id = first.student_id
-INNER JOIN exam_result second ON first.student_id = second.student_id
-AND first.exam_id = second.exam_id 
-AND first.id != second.id;
+SELECT student.id, student.last_name FROM student
+INNER JOIN exam_result  ON student.id = exam_result.student_id
+INNER JOIN exam ON exam.id = exam_result.exam_id
+GROUP BY student.id, student.last_name, exam.training_course_id
+HAVING COUNT(*) > 1;
 
 SELECT student.first_name, student.last_name, result FROM student
 INNER JOIN student_result ON student.id = student_result.student_id
