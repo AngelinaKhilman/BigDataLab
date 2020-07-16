@@ -222,6 +222,4 @@ LIMIT 1;
 SELECT exam_result.student_id, exam_result.result, YEAR(exam.date) as year
 FROM exam_result
 INNER JOIN exam ON exam_result.exam_id = exam.id 
-INNER JOIN training_course ON exam.training_course_id = training_course.id 
-WHERE training_course.name = "ТВИМС" 
-ORDER BY year;
+WHERE exam.training_course_id = 1;
