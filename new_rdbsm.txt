@@ -171,18 +171,14 @@ VALUES (2, 4, 3, '2020-02-02', 'good', 10);
 
 SELECT first_name, last_name FROM student
 INNER JOIN exam_result ON student.id = exam_result.student_id
-INNER JOIN exam ON  exam_result.exam_id = exam.id
-INNER JOIN training_course ON exam.training_course_id = training_course.id
 WHERE exam_result.result >= 4 
-AND training_course.name = 'Системы управления базами данных' 
+AND exam_result.exam_id = 1 
 ORDER BY exam_result.result DESC;
 
 SELECT COUNT(*) FROM student
 INNER JOIN exam_result ON student.id = exam_result.student_id 
-INNER JOIN exam ON exam_result.exam_id = exam.id
-INNER JOIN training_course ON exam.training_course_id = training_course.id
 WHERE exam_result.result in (4, 5) 
-AND training_course.name = 'Системы управления базами данных';
+AND exam_result.exam_id = 1;
 
 SELECT COUNT(*) FROM student_result
 LEFT JOIN exam_result ON exam_result.student_id = student_result.student_id
@@ -214,9 +210,6 @@ AND first.id != second.id;
 
 SELECT student.first_name, student.last_name, result FROM student
 INNER JOIN student_result ON student.id = student_result.student_id
-UNION
-SELECT student.first_name, student.last_name, result FROM student
-INNER JOIN exam_result ON student.id = exam_result.student_id
 ORDER BY result DESC 
 LIMIT 5;
 
